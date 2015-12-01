@@ -61,12 +61,14 @@ class Matrix:
         if type(other) == float or type(other) == int:
             res.matr = [[self.matr[i][j] * other for j in range(self.columns)] for i in range(self.lines)]
         else:
-            res = Matrix(self.lines, other.columns)
-            for i in range(self.lines):
-                for j in range(other.columns):
-                    for k in range(self.columns):
-                        res.matr[i][j] += self.matr[i][k] * other.matr[k][j]
-        return res
+            if self.columns != other.lines:
+                raise RuntimeError()
+            else:
+                res = Matrix(self.lines, other.columns)
+                for i in range(self.lines):
+                    for j in range(other.columns):
+                        for k in range(self.columns):
+                            res.matr[i][j] += self.matr[i][k] * other.matr[k][j]
 
     def __truediv__(self, other):
         res = Matrix(self.lines, self.columns)
