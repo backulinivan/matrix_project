@@ -1,9 +1,13 @@
 class Matrix:
 
     def __init__(self, lines, columns):
-        self.lines = lines
-        self.columns = columns
-        self.matr = [[0 for i in range(columns)] for j in range(lines)]
+        if type(lines) != int or type(columns) != int or lines <= 0 or columns <= 0:
+            raise ValueError()
+        else:
+            self.lines = lines
+            self.columns = columns
+            self.matr = [[0 for i in range(columns)] for j in range(lines)]
+
 
     def printMatrix(self):
         for i in range(self.lines):
@@ -41,9 +45,9 @@ class Matrix:
         self.matr[i][j] = value
 
     def __eq__(self, other):
-        if self.matr != other.matr:
-            return False
-        return True
+        if self.lines != other.lines or self.columns != other.columns:
+            raise RuntimeError()
+        return self.matr == other.matr
 
     def transpose(self):
         res = Matrix(self.columns, self.lines)
