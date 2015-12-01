@@ -1,9 +1,12 @@
 class Matrix:
 
     def __init__(self, lines, columns):
-        self.lines = lines
-        self.columns = columns
-        self.matr = [[0 for i in range(columns)] for j in range(lines)]
+        if type(lines) != int or type(columns) != int or lines <= 0 or columns <= 0:
+            raise ValueError()
+        else:
+            self.lines = lines
+            self.columns = columns
+            self.matr = [[0 for i in range(columns)] for j in range(lines)]
 
     def printMatrix(self):
         for i in range(self.lines):
@@ -41,14 +44,14 @@ class Matrix:
         self.matr[i][j] = value
 
     def __eq__(self, other):
-        if self.matr != other.matr:
-            return False
-        return True
+        if self.lines != other.lines or self.columns != other.columns:
+            raise RuntimeError()
+        return self.matr == other.matr
 
     def transpose(self):
-        res = Matrix(self.lines, self.columns)
-        for i in range(self.lines):
-            for j in range(self.columns):
+        res = Matrix(self.columns, self.lines)
+        for i in range(self.columns):
+            for j in range(self.lines):
                 res.matr[i][j] = self.matr[j][i]
         return res
 
@@ -57,11 +60,14 @@ class Matrix:
         if type(other) == float or type(other) == int:
             res.matr = [[self.matr[i][j] * other for j in range(self.columns)] for i in range(self.lines)]
         else:
-            res = Matrix(self.lines, other.columns)
-            for i in range(self.lines):
-                for j in range(other.columns):
-                    for k in range(self.columns):
-                        res.matr[i][j] += self.matr[i][k] * other.matr[k][j]
+            if self.columns != other.lines:
+                raise RuntimeError()
+            else:
+                res = Matrix(self.lines, other.columns)
+                for i in range(self.lines):
+                    for j in range(other.columns):
+                        for k in range(self.columns):
+                            res.matr[i][j] += self.matr[i][k] * other.matr[k][j]
         return res
 
     def __truediv__(self, other):
