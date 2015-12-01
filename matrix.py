@@ -46,9 +46,9 @@ class Matrix:
         return True
 
     def transpose(self):
-        res = Matrix(self.lines, self.columns)
-        for i in range(self.lines):
-            for j in range(self.columns):
+        res = Matrix(self.columns, self.lines)
+        for i in range(self.columns):
+            for j in range(self.lines):
                 res.matr[i][j] = self.matr[j][i]
         return res
 
